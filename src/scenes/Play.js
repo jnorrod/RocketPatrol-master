@@ -10,6 +10,7 @@ class Play extends Phaser.Scene {
         this.load.image('starfield', './assets/starfield.png'); // redesigned artwork/Ui/aesthetic new theme 60 points
         // load spritesheet
         this.load.spritesheet('explosion', './assets/explosion.png', {frameWidth: 64, frameHeight: 32, startFrame: 0, endFrame: 9});
+
     }
 
     create() {
@@ -47,10 +48,14 @@ class Play extends Phaser.Scene {
         });
 
         // initialize score
+
+
+
+        
         this.p1Score = 0;
 
         // display score
-        let scoreConfig = {
+        this.textConfig = {
             fontFamily: 'Courier',
             fontSize: '28px',
             backgroundColor: '#CCCCFF',
@@ -62,18 +67,25 @@ class Play extends Phaser.Scene {
             },
             fixedWidth: 100
         }
-        this.scoreLeft = this.add.text(borderUISize + borderPadding, borderUISize + borderPadding*2, this.p1Score, scoreConfig);
+        this.scoreLeft = this.add.text(borderUISize + borderPadding, borderUISize + borderPadding*2, this.p1Score, this.textConfig);
 
         // GAME OVER flag
         this.gameOver = false;
 
         // 60-second play clock
-        scoreConfig.fixedWidth = 0;
-        this.clock = this.time.delayedCall(game.settings.gameTimer, () => {
-            this.add.text(game.config.width/2, game.config.height/2, 'GAME OVER', scoreConfig).setOrigin(0.5);
-            this.add.text(game.config.width/2, game.config.height/2 + 64, 'Press (R) to Restart or ← to Menu', scoreConfig).setOrigin(0.5);
-            this.gameOver = true;
-        }, null, this);
+        //scoreConfig.fixedWidth = 0;
+        this.remainingTime = game.settings.gameTimer/1000;
+
+        // added time remaining display 10 points 
+        // credit to Caleb Zarko czarko@ucsc.edu groupmate CMPM120
+        this.clock = this.time.delayedCall(1000, () => {
+            //this.add.text(game.config.width/2, game.config.height/2, 'GAME OVER', scoreConfig).setOrigin(0.5);
+        //     this.add.text(game.config.width/2, game.config.height/2 + 64, 'Press (R) to Restart or ← to Menu', scoreConfig).setOrigin(0.5);
+        //     this.gameOver = true;
+            this.updateTimer();
+        }, null, this); 
+        this.timerRight = this.add.text(game.config.width - (borderUISize + borderPadding) - this.textConfig.fixedWidth, borderUISize + borderPadding * 2, this.remainingTime, this.textConfig);
+        this.textConfig.fixedWidth = 0;
     }
 
     update() {
@@ -107,7 +119,9 @@ class Play extends Phaser.Scene {
         if (this.checkCollision(this.p1Rocket, this.ship01)) {
             this.p1Rocket.reset();
             this.shipExplode(this.ship01);
+    
         }
+        this.timerRight.text = this.remainingTime;
     }
 
     checkCollision(rocket, ship) {
@@ -138,5 +152,19 @@ class Play extends Phaser.Scene {
         this.scoreLeft.text = this.p1Score; 
         
         this.sound.play('sfx_explosion');
+      }
+      updateTimer() {
+          if(this.remainingTime > 0){
+              this.remainingTime -= 1;
+              this.clock = this.time.delayedCall(1000,() => {
+                  this.updateTimer();
+
+              }, null, this);
+
+          } else {
+            this.add.text(game.config.width/2, game.config.height/2, 'GAME OVER', this.textConfig).setOrigin(0.5);
+            this.add.text(game.config.width/2, game.config.height/2 + 64, 'Press (R) to Restart or ← to Menu', this.textConfig).setOrigin(0.5);
+            this.gameOver = true;
+          }
       }
 }
