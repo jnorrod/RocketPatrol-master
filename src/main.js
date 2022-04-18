@@ -17,6 +17,7 @@ let keyF, keyR, keyLEFT, keyRIGHT;
 /// Jesus Norrod Feed Da Whales, 4/18/22, 24 Hours over the course of 3 days. //
 // (60) Redesign the game's artwork, UI, and sound to change its theme/aesthetic (to something other than sci-fi) 
     // redid the spaceships into whales, added a yummy! effect when whales eat the rocket fishie, and added a new scrolling background
+    // splish splash noise and yummy noise recorded by me in audacity
 // (10) Display the time remaining (in seconds) on the screen 
     // Caleb Zarko from ARTG 120 section helped code the in game timer 
 // (5) Add your own (copyright-free) background music to the Play scene
