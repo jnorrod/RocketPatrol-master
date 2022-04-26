@@ -28,7 +28,7 @@ class Menu extends Phaser.Scene {
         }
         // 10 points redid menu layout and typography 
         // show menu text
-        this.add.text(game.config.width/4, game.config.height/4 - borderUISize - borderPadding, ' Feed da Whales! ', menuConfig).setOrigin(0.5);
+        this.add.text(game.config.width/4, game.config.height/4 - borderUISize - borderPadding, ' Yummie! ', menuConfig).setOrigin(0.5);
         this.add.text(game.config.width/2, game.config.height/2, ' Use ←→ arrows to move & (F) to throw the fishie! ', menuConfig).setOrigin(0.5);
         menuConfig.backgroundColor = '#6495ED';
         menuConfig.color = '#000';
